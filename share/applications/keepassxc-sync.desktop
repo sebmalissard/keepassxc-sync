@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=KeePassXC sync
+Comment=Run KeePassXC with synchronization of the database at start and stop application.
+Exec=keepassxc-sync
+Icon=keepassxc-sync
+Terminal=false
+Type=Application
+Categories=Utility;Security;
