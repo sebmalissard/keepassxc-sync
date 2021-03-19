@@ -78,7 +78,7 @@ main()
     fi
     
     # Download the remote database
-    if ! scp -P ${remote_ssh_port} ${remote_ssh_user}@${remote_server}:${remote_db_file} "${tmp_remote_db_file}"; then
+    if ! scp -o ConnectTimeout=10 -P ${remote_ssh_port} ${remote_ssh_user}@${remote_server}:${remote_db_file} "${tmp_remote_db_file}"; then
         debug "Command failed: 'scp -P ${remote_ssh_port} ${remote_ssh_user}@${remote_server}:${remote_db_file} \"${tmp_remote_db_file}\"'"
         error "Fail to download remote database."
     fi
