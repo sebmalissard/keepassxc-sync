@@ -6,6 +6,11 @@
 # Brief: Synchronize the local keepassxc database with a remote database over ssh
 #
 
+KEEPASSXC_SYNC_DIR="/opt/keepassxc-sync/scripts/"
+
+# shellcheck source=./common.bash
+source "${KEEPASSXC_SYNC_DIR}/common.bash"
+
 # User configuration variables
 cache_hash_file="/home/${USER}/.cache/keepassxc-sync/hash_Passwords_kdbx"
 local_db_file="<path_to>/Passwords.kdbx"
@@ -19,25 +24,8 @@ keepass_cmd=${0}
 tmp_remote_db_file=""
 force_update_remote=0
 
-debug()
+error_exit()
 {
-    echo -e "DEBUG: ${*}" >&2
-}
-
-info()
-{
-    echo -e "\e[1;97mINFO: ${*}\e[0m" >&2
-}
-
-warning()
-{
-    echo -e "\e[1;33mWARNING: ${*}\e[0m" >&2
-}
-
-error()
-{
-    echo -e "\e[1;31mERROR: ${*}\e[0m" >&2
-    
     # All error in this script are fatal, otherwise used warning function
     quit 1
 }

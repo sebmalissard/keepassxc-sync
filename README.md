@@ -4,7 +4,7 @@
 
 ## Instaltion
 
-Before install it, you need to edit the user configuration variables at the top of this script: `scripts/keepassxc-sync-cli.sh`.
+Before install it, you need to edit the user configuration variables at the top of this script: `scripts/keepassxc-sync-cli.bash`.
 
 Then run:
 ```bash

@@ -19,9 +19,14 @@ error_exit()
     exit 1
 }
 
+print_help()
+{
+    echo "Help install keepassxc-sync TODO"
+}
+
 main()
 {
-    if ! hash keepassxc; then
+    if [ "${install_cli_only}" != "1" ] && ! hash keepassxc; then
         error "KeePassXC is not installed. Why did you try to install keepassxc-sync (keepasssxc-sync is only an overlay to KeePassXC)?"
     fi
 
@@ -48,14 +53,6 @@ main()
         error "Fail to install keepassxc-sync in '/opt/keepassxc-sync'."
     fi
 
-    if [ ! -L "${bin_install_path}/keepassxc-sync" ]; then
-        rm -f "${bin_install_path}/keepassxc-sync"
-        
-        if ! sudo ln -s "${opt_install_path}/scripts/keepassxc-sync.bash" "${bin_install_path}/keepassxc-sync"; then
-            error "Fail to create symlink in '${bin_install_path}/keepassxc-sync'."
-        fi
-    fi
-    
     if [ ! -L "${bin_install_path}/keepassxc-sync-cli" ]; then
         rm -f "${bin_install_path}/keepassxc-sync-cli"
         
@@ -64,13 +61,40 @@ main()
         fi
     fi
 
-    if ! xdg-icon-resource install --size 256 "${cur_dir}/share/icons/apps/256x256/keepassxc-sync.png"; then
-        warning "Fail to install the keepssxc-sync icon"
-    fi
+    if [ "${install_cli_only}" != "1" ]; then
+        if [ ! -L "${bin_install_path}/keepassxc-sync" ]; then
+            rm -f "${bin_install_path}/keepassxc-sync"
 
-    if ! xdg-desktop-menu install "${cur_dir}/share/applications/keepassxc-sync.desktop"; then
-        warning "Fail to install the keepssxc-sync desktop file"
+            if ! sudo ln -s "${opt_install_path}/scripts/keepassxc-sync.bash" "${bin_install_path}/keepassxc-sync"; then
+                error "Fail to create symlink in '${bin_install_path}/keepassxc-sync'."
+            fi
+        fi
+
+        if ! xdg-icon-resource install --size 256 "${cur_dir}/share/icons/apps/256x256/keepassxc-sync.png"; then
+            warning "Fail to install the keepssxc-sync icon"
+        fi
+
+        if ! xdg-desktop-menu install "${cur_dir}/share/applications/keepassxc-sync.desktop"; then
+            warning "Fail to install the keepssxc-sync desktop file"
+        fi
     fi
 }
+
+# Parse command arguments
+while (( "$#" )); do
+    case "$1" in
+        -h|--help)
+            print_help
+            exit 1
+            ;;
+        -c|--cli-only)
+            install_cli_only=1
+            shift
+            ;;
+        *)
+            error "Invalid argument."
+            ;;
+    esac
+done
 
 main
