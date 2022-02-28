@@ -21,7 +21,7 @@ main()
 {
     debug "Start of KeePassXC sync"
     
-    if x-terminal-emulator --command="${KEEPASSXC_SYNC_DIR}/keepassxc-sync-start.bash"; then
+    if x-terminal-emulator -e "${KEEPASSXC_SYNC_DIR}/keepassxc-sync-start.bash"; then
 
         info "Waiting to get keepassxc-sync terminal PID..."
         while ((keepassxc_wait_pid_timeout > 0)) && [ ! -f "${keepassxc_term_pid_file}" ]; do
@@ -49,7 +49,7 @@ main()
             sleep 0.5;
         done
 
-        if x-terminal-emulator --command="${KEEPASSXC_SYNC_DIR}/keepassxc-sync-stop.bash"; then
+        if x-terminal-emulator -e "${KEEPASSXC_SYNC_DIR}/keepassxc-sync-stop.bash"; then
 
             info "Waiting to get keepassxc-sync terminal PID..."
             while ((keepassxc_wait_pid_timeout > 0)) && [ ! -f "${keepassxc_term_pid_file}" ]; do
