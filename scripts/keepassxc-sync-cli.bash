@@ -57,7 +57,14 @@ main()
 {
     # Check if local database exist
     if [ ! -f "${local_db_file}" ]; then
-        error "Local database file doesn't exist: '${local_db_file}'."
+        warning "Local database file doesn't exist: '${local_db_file}'."
+        
+        read -p "Do you want create local database? (y/N)?  " -n 1 -r
+        echo
+        
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            exit 0
+        fi
     fi
     
     # Create the temporary file remote database
